@@ -1,3 +1,7 @@
 dasboard:
    path: /
    controller: App\Controller\AdminViewController::index
+
+list_Pedidos:
+    path: /listpedidos
+    controller: App\Controller\PedidoController::list

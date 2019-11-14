@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
@@ -17,9 +18,9 @@ class UserType extends AbstractType
         $builder
             ->add('email', EmailType::class, array('attr'  => array('class' => 'form-control')))
             ->add('username', TextType::class, array('attr'  => array('class' => 'form-control')))
-            ->add('telfijo', EmailType::class, array('attr'  => array('class' => 'form-control')))
-            ->add('telmovil', EmailType::class, array('attr'  => array('class' => 'form-control')))
-            ->add('direccion', EmailType::class, array('attr'  => array('class' => 'form-control')))
+            ->add('telfijo', NumberType::class, array('attr'  => array('class' => 'form-control')))
+            ->add('telmovil', NumberType::class, array('attr'  => array('class' => 'form-control')))
+            ->add('direccion', TextType::class, array('attr'  => array('class' => 'form-control')))
             ->add('plainPassword', RepeatedType::class, array(
                 'type' => PasswordType::class,
                 'first_options'  => array('label' => 'Password'),

@@ -28,17 +28,17 @@ class User implements UserInterface
     private $username;
 
     /**
-     * @ORM\Column(type="integer", length=15, unique=true)
+     * @ORM\Column(type="string", nullable=false, length=180)
      */
     private $telfijo;
 
     /**
-     * @ORM\Column(type="integer", length=15)
+     * @ORM\Column(type="string", length=180)
      */
     private $telmovil;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $direccion;
 
