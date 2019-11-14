@@ -1,0 +1,11 @@
+logout:
+  path: /logout
+  controller: App\Controller\SecurityController::logout
+
+users:
+  resource: 'routes/users/routes.yaml'
+  prefix: /
+
+admin:
+  resource: 'routes/admin/routes.yaml'
+  prefix: /admin

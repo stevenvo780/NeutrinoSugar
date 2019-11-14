@@ -1,0 +1,27 @@
+index:
+   path: /
+   controller: App\Controller\UserViewController::index
+
+about:
+ path: /about
+ controller: App\Controller\UserViewController::about
+
+products:
+  path: /products
+  controller: App\Controller\UserViewController::products
+
+store:
+  path: /store
+  controller: App\Controller\UserViewController::store
+
+register:
+  path: /register
+  controller: App\Controller\RegistrationController::register
+
+login:
+  path: /login
+  controller: App\Controller\SecurityController::register
+
+logout:
+  path: /logout
+  controller: App\Controller\SecurityController::logout
