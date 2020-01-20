@@ -2,6 +2,34 @@ dasboard:
    path: /
    controller: App\Controller\AdminViewController::index
 
+productos:
+    path: /productos
+    controller: App\Controller\AdminViewController::productos
+
+ingredientes:
+    path: /ingredientes
+    controller: App\Controller\AdminViewController::ingredientes
+
 list_Pedidos:
     path: /listpedidos
     controller: App\Controller\PedidoController::list
+
+list_Consultas:
+    path: /listconsultas
+    controller: App\Controller\ConsultaController::list
+
+list_Productos:
+    path: /listproductos
+    controller: App\Controller\ProductoController::list
+
+new_Productos:
+    path: /newproductos
+    controller: App\Controller\ProductoController::new
+
+list_Ingredientes:
+    path: /listingredientes
+    controller: App\Controller\IngredientesController::list
+
+new_Ingredientes:
+    path: /newIngredientes
+    controller: App\Controller\IngredientesController::new

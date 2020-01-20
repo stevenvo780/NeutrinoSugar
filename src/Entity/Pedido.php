@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,14 +19,14 @@ class Pedido
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="pedidos")
      */
     private $remitente;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Producto", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Producto", mappedBy="pedido")
      */
-    private $producto;
+    private $Producto;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -34,7 +36,12 @@ class Pedido
     /**
      * @ORM\Column(type="boolean")
      */
-    private $entregado;
+    private $estado;
+
+    public function __construct()
+    {
+        $this->Producto = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -53,14 +60,33 @@ class Pedido
         return $this;
     }
 
-    public function getProducto(): ?Producto
+    /**
+     * @return Collection|Producto[]
+     */
+    public function getProducto(): Collection
     {
-        return $this->producto;
+        return $this->Producto;
     }
 
-    public function setProducto(?Producto $producto): self
+    public function addProducto(Producto $producto): self
     {
-        $this->producto = $producto;
+        if (!$this->Producto->contains($producto)) {
+            $this->Producto[] = $producto;
+            $producto->setPedido($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProducto(Producto $producto): self
+    {
+        if ($this->Producto->contains($producto)) {
+            $this->Producto->removeElement($producto);
+            // set the owning side to null (unless already changed)
+            if ($producto->getPedido() === $this) {
+                $producto->setPedido(null);
+            }
+        }
 
         return $this;
     }
@@ -77,14 +103,14 @@ class Pedido
         return $this;
     }
 
-    public function getEntregado(): ?bool
+    public function getEstado(): ?bool
     {
-        return $this->entregado;
+        return $this->estado;
     }
 
-    public function setEntregado(bool $entregado): bool
+    public function setEstado(bool $estado): self
     {
-        $this->entregado = $entregado;
+        $this->estado = $estado;
 
         return $this;
     }

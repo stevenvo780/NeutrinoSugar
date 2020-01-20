@@ -13,7 +13,6 @@ use Symfony\Component\Serializer\Serializer;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Pedido;
 
-
 class PedidoController extends AbstractController
 {
 
@@ -27,6 +26,7 @@ class PedidoController extends AbstractController
 
         $serializer = new Serializer($normalizers, $encoders);
 
+        dump($pedidos);
 
         return new Response($serializer->serialize($pedidos, 'json'));
     }

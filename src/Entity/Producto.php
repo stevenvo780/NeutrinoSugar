@@ -29,7 +29,7 @@ class Producto
     /**
      * @ORM\Column(type="integer")
      */
-    private $tamaño;
+    private $size;
 
     /**
      * @ORM\Column(type="json")
@@ -41,6 +41,15 @@ class Producto
      */
     private $precio;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $image;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Pedido", inversedBy="Producto")
+     */
+    private $pedido;
 
 
     public function getId(): ?int
@@ -72,14 +81,14 @@ class Producto
         return $this;
     }
 
-    public function getTamaño(): ?int
+    public function getSize(): ?int
     {
-        return $this->tamaño;
+        return $this->size;
     }
 
-    public function setTamaño(int $tamaño): self
+    public function setSize(int $size): self
     {
-        $this->tamaño = $tamaño;
+        $this->size = $size;
 
         return $this;
     }
@@ -104,6 +113,30 @@ class Producto
     public function setPrecio(?int $precio): self
     {
         $this->precio = $precio;
+
+        return $this;
+    }
+
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getPedido(): ?Pedido
+    {
+        return $this->pedido;
+    }
+
+    public function setPedido(?Pedido $pedido): self
+    {
+        $this->pedido = $pedido;
 
         return $this;
     }

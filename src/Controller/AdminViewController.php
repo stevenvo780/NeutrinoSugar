@@ -9,13 +9,22 @@ class AdminViewController extends AbstractController
 
     public function index()
     {
-        $userlogeado = '';
-        if ($this->getUser(0)) {
-            $userlogeado = $this->getUser(0)->getEmail();
-        }
-
         return $this->render('admin_view/index.html.twig', [
-            'user' => $userlogeado,
+
+        ]);
+    }
+
+    public function productos()
+    {
+        return $this->render('admin_view/producto/productos.html.twig', [
+
+        ]);
+    }
+
+    public function ingredientes()
+    {
+        return $this->render('admin_view/ingredientes/ingredientes.html.twig', [
+
         ]);
     }
 }

@@ -252,57 +252,25 @@
       <!-- Begin Page Content -->
       <div class="container-fluid">
 
-        <!-- Page Heading -->
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
           <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Pedidos</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Ingredientes</h6>
           </div>
           <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-bordered" id="pedidos" width="100%" cellspacing="0">
-                <thead>
-                  <tr>
-                    <th>Cliente</th>
-                    <th>Telefono movil</th>
-                    <th>Telefono fijo</th>
-                    <th>Direccion</th>
-                    <th>Producto</th>
-                    <th>Mensaje</th>
-                    <th>Pago</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                </tbody>
-              </table>
-            </div>
+            {{ form_start(form) }}
+                {{ form_row(form.ingrediente) }}
+                {{ form_row(form.gramaje) }}
+
+                <br>
+                <button class="btn btn-success" type="submit">Agregar producto</button>
+            {{ form_end(form) }}
           </div>
         </div>
 
-        <div class="card shadow mb-4">
-          <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Consultas</h6>
-          </div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-bordered" id="consultas" width="100%" cellspacing="0">
-                <thead>
-                  <tr>
-                    <th>Cliente</th>
-                    <th>Telefono movil</th>
-                    <th>Telefono fijo</th>
-                    <th>Direccion</th>
-                    <th>Mensaje</th>
-                    <th class="">Acciones</th>
-                  </tr>
-                </thead>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
 
-      </div>
+
+
 <!-- End of Page Wrapper -->
 
 <!-- Scroll to Top Button-->
@@ -334,89 +302,7 @@
 
 <script type="text/javascript">
 
-$(document).ready(function() {
-        pedidosList();
-        consultasList();
-        console.log("Docuemnto listo");
-    });
 
-function pedidosList() {
-
-    var misCabeceras = new Headers();
-    var miInit = { method: 'GET',
-           headers: misCabeceras,
-           mode: 'cors',
-           cache: 'default' };
-  fetch('{{ path('list_Pedidos') }}',miInit)
-    .then(response => response.json())
-    .then(myJson => {
-        var table = $('#pedidos').DataTable({
-         "destroy": true,
-        });
-     table.clear();
-
-     console.log(myJson);
-     for (var i = 0; i < myJson.length; i++) {
-         var x = "borrarPedido("+myJson[i].id+")";
-         var y = "actualizarPedido("+myJson[i].id+")";
-         var boton = `<button type='button' id='ButtonEditar' data-toggle='modal'  data-target='#Editar'  onclick='${y}' class='btn btn-success'><span class='hidden-xs'>Listo</span></button><span class='hidden-xs'> &nbsp; &nbsp; </span><button type='button' id='ButtonEditar' onclick='${x}' class='btn btn-danger'><span class='hidden-xs'>Borrar</span></button>`;
-                         table.row.add([
-                             myJson[i].remitente.username,
-                             myJson[i].remitente.telmovil,
-                             myJson[i].remitente.telfijo,
-                             myJson[i].remitente.direccion,
-                             myJson[i].producto.nombre,
-                             myJson[i].mensaje,
-                             myJson[i].producto.precio,
-                             boton,
-
-                         ]);
-     }
-     table.draw();
-    })
-    .catch(function(err) {
-       console.log(err);
-
-    });
-}
-
-function consultasList() {
-
-    var misCabeceras = new Headers();
-    var miInit = { method: 'GET',
-           headers: misCabeceras,
-           mode: 'cors',
-           cache: 'default' };
-  fetch('{{ path('list_Consultas') }}',miInit)
-    .then(response => response.json())
-    .then(myJson => {
-        var table = $('#consultas').DataTable({
-         "destroy": true,
-        });
-     table.clear();
-
-     console.log(myJson);
-     for (var i = 0; i < myJson.length; i++) {
-         var x = "borrarConsulta("+myJson[i].id+")";
-         var y = "actualizarConsulta("+myJson[i].id+")";
-         var boton = `<button type='button' id='ButtonEditar' data-toggle='modal' data-target='#Editar'  onclick='${y}' class='btn btn-success'><span class='hidden-xs'>Listo</span></button><span class='hidden-xs'> &nbsp; &nbsp; </span><button type='button' id='ButtonEditar' onclick='${x}' class='btn btn-danger'><span class='hidden-xs'>Borrar</span></button>`;
-                         table.row.add([
-                             myJson[i].remitente.username,
-                             myJson[i].remitente.telmovil,
-                             myJson[i].remitente.telfijo,
-                             myJson[i].remitente.direccion,
-                             myJson[i].mensaje,
-                             boton,
-
-                         ]);
-     }
-     table.draw();
-    })
-    .catch(function(err) {
-       console.log(err);
-
-    });
-}
 </script>
 
 {% endblock %}

@@ -253,23 +253,30 @@
       <div class="container-fluid">
 
         <!-- Page Heading -->
+        <div class="">
+            <a class="btn btn-success" href="{{path('new_Productos')}}">
+              Agregar un producto
+            </a>
+
+        </div>
+
+        <br>
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
           <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Pedidos</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Productos</h6>
           </div>
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table table-bordered" id="pedidos" width="100%" cellspacing="0">
+              <table class="table table-bordered" id="productos" width="100%" cellspacing="0">
                 <thead>
                   <tr>
-                    <th>Cliente</th>
-                    <th>Telefono movil</th>
-                    <th>Telefono fijo</th>
-                    <th>Direccion</th>
-                    <th>Producto</th>
-                    <th>Mensaje</th>
-                    <th>Pago</th>
+                    <th>Nombre</th>
+                    <th>Descripcion</th>
+                    <th>Tamaño</th>
+                    <th>Ingredientes</th>
+                    <th>Precio</th>
+                    <th>Foto</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
@@ -279,30 +286,9 @@
           </div>
         </div>
 
-        <div class="card shadow mb-4">
-          <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Consultas</h6>
-          </div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-bordered" id="consultas" width="100%" cellspacing="0">
-                <thead>
-                  <tr>
-                    <th>Cliente</th>
-                    <th>Telefono movil</th>
-                    <th>Telefono fijo</th>
-                    <th>Direccion</th>
-                    <th>Mensaje</th>
-                    <th class="">Acciones</th>
-                  </tr>
-                </thead>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
 
-      </div>
+
+
 <!-- End of Page Wrapper -->
 
 <!-- Scroll to Top Button-->
@@ -335,80 +321,43 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
-        pedidosList();
-        consultasList();
+        ProductosList();
         console.log("Docuemnto listo");
     });
 
-function pedidosList() {
+function ProductosList() {
 
     var misCabeceras = new Headers();
     var miInit = { method: 'GET',
            headers: misCabeceras,
            mode: 'cors',
            cache: 'default' };
-  fetch('{{ path('list_Pedidos') }}',miInit)
+  fetch('{{ path('list_Productos') }}',miInit)
     .then(response => response.json())
     .then(myJson => {
-        var table = $('#pedidos').DataTable({
+        var table = $('#productos').DataTable({
          "destroy": true,
         });
      table.clear();
 
      console.log(myJson);
      for (var i = 0; i < myJson.length; i++) {
-         var x = "borrarPedido("+myJson[i].id+")";
-         var y = "actualizarPedido("+myJson[i].id+")";
-         var boton = `<button type='button' id='ButtonEditar' data-toggle='modal'  data-target='#Editar'  onclick='${y}' class='btn btn-success'><span class='hidden-xs'>Listo</span></button><span class='hidden-xs'> &nbsp; &nbsp; </span><button type='button' id='ButtonEditar' onclick='${x}' class='btn btn-danger'><span class='hidden-xs'>Borrar</span></button>`;
-                         table.row.add([
-                             myJson[i].remitente.username,
-                             myJson[i].remitente.telmovil,
-                             myJson[i].remitente.telfijo,
-                             myJson[i].remitente.direccion,
-                             myJson[i].producto.nombre,
-                             myJson[i].mensaje,
-                             myJson[i].producto.precio,
-                             boton,
+         if (myJson[i].entregado == false) {
+             var x = "borrarPedido("+myJson[i].id+")";
+             var y = "actualizarPedido("+myJson[i].id+")";
+             var imagen = `<img class='intro-img img-fluid mb-3 mb-lg-0 rounded' src='/uploads/productos/${myJson[i].image}'>`;
+             var boton = `<button type='button' id='ButtonEditar' data-toggle='modal'  data-target='#Editar'  onclick='${y}' class='btn btn-success'><span class='hidden-xs'>Listo</span></button><span class='hidden-xs'> &nbsp; &nbsp; </span><button type='button' id='ButtonEditar' onclick='${x}' class='btn btn-danger'><span class='hidden-xs'>Borrar</span></button>`;
+                             table.row.add([
+                                 myJson[i].nombre,
+                                 myJson[i].descripcion,
+                                 myJson[i].size,
+                                 myJson[i].ingredientes,
+                                 myJson[i].precio,
+                                 imagen,
+                                 boton,
 
-                         ]);
-     }
-     table.draw();
-    })
-    .catch(function(err) {
-       console.log(err);
-
-    });
-}
-
-function consultasList() {
-
-    var misCabeceras = new Headers();
-    var miInit = { method: 'GET',
-           headers: misCabeceras,
-           mode: 'cors',
-           cache: 'default' };
-  fetch('{{ path('list_Consultas') }}',miInit)
-    .then(response => response.json())
-    .then(myJson => {
-        var table = $('#consultas').DataTable({
-         "destroy": true,
-        });
-     table.clear();
-
-     console.log(myJson);
-     for (var i = 0; i < myJson.length; i++) {
-         var x = "borrarConsulta("+myJson[i].id+")";
-         var y = "actualizarConsulta("+myJson[i].id+")";
-         var boton = `<button type='button' id='ButtonEditar' data-toggle='modal' data-target='#Editar'  onclick='${y}' class='btn btn-success'><span class='hidden-xs'>Listo</span></button><span class='hidden-xs'> &nbsp; &nbsp; </span><button type='button' id='ButtonEditar' onclick='${x}' class='btn btn-danger'><span class='hidden-xs'>Borrar</span></button>`;
-                         table.row.add([
-                             myJson[i].remitente.username,
-                             myJson[i].remitente.telmovil,
-                             myJson[i].remitente.telfijo,
-                             myJson[i].remitente.direccion,
-                             myJson[i].mensaje,
-                             boton,
-
-                         ]);
+                             ]);
+         }
      }
      table.draw();
     })

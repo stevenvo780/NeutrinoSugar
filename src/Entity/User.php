@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -56,6 +58,16 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Pedido", mappedBy="remitente")
+     */
+    private $pedidos;
+
+    public function __construct()
+    {
+        $this->pedidos = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -182,5 +194,36 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|Pedido[]
+     */
+    public function getPedidos(): Collection
+    {
+        return $this->pedidos;
+    }
+
+    public function addPedido(Pedido $pedido): self
+    {
+        if (!$this->pedidos->contains($pedido)) {
+            $this->pedidos[] = $pedido;
+            $pedido->setRemitente($this);
+        }
+
+        return $this;
+    }
+
+    public function removePedido(Pedido $pedido): self
+    {
+        if ($this->pedidos->contains($pedido)) {
+            $this->pedidos->removeElement($pedido);
+            // set the owning side to null (unless already changed)
+            if ($pedido->getRemitente() === $this) {
+                $pedido->setRemitente(null);
+            }
+        }
+
+        return $this;
     }
 }
